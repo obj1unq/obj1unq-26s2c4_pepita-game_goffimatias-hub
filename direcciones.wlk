@@ -10,13 +10,24 @@ object tablero {
     method dentro(position) {
         return position.x().between(0, game.width() -1) and position.y().between(0, game.height() -1 )
     }
+
+    method validarAtravesable(position) {
+      if ( not game.getObjectsIn(position).all({entidad => entidad.atravesable()})) {
+        self.error(position.toString() + " no es atravesable")
+      }
+    }
+
+    method validarSiguientePosicion(nuevaPosicion) {
+        self.validarDentro(nuevaPosicion)
+        self.validarAtravesable(nuevaPosicion)
+    }
 }
 
 object arriba {
 
     method siguiente(position) {
         const nueva = position.up(1) 
-        tablero.validarDentro(nueva)
+        tablero.validarSiguientePosicion(nueva)
         return nueva
     }
 }
@@ -26,7 +37,7 @@ object abajo {
     
     method siguiente(position) {
         const nueva = position.down(1) 
-        tablero.validarDentro(nueva)
+        tablero.validarSiguientePosicion(nueva)
         return nueva
     }
 }
@@ -34,7 +45,7 @@ object abajo {
 object derecha {
     method siguiente(position) {
         const nueva = position.right(1) 
-        tablero.validarDentro(nueva)
+        tablero.validarSiguientePosicion(nueva)
         return nueva
     }
 
@@ -42,7 +53,7 @@ object derecha {
 object izquierda{
     method siguiente(position) {
         const nueva = position.left(1) 
-        tablero.validarDentro(nueva)
+        tablero.validarSiguientePosicion(nueva)
         return nueva
     }
 

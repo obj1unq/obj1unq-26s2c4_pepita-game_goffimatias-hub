@@ -6,20 +6,8 @@ object pepita {
 	// CONFIGURACION INICIAL
 	
 	var property energia = 100 //El getter y setter solo lo necesito para testear
-	var position = game.origin()
-	var imagen = "pepita.png"
-
-	method image() { //metodo necesario para wollok game
-		return imagen
-	}
-
-	method position() { //metodo necesario para wollok game
-		return position
-	}
-
-	method position(_position) { //el setter solo lo necesito para testear
-		position = _position 
-	}
+	var property position = game.origin()
+	var property image = "pepita.png"
 
 	// VALIDACIONES
 
@@ -57,33 +45,15 @@ object pepita {
 
 	// ACCIONES
 	
-	method cambiarImagen(_imagen) {
-		imagen = _imagen
-	}
-
 	method cansada() {
-		self.cambiarImagen("pepita-gris.png")
+		self.image("pepita-gris.png")
 		self.error("No tengo energia para volar")
 	}
 
-	method comer() {
-		const alimento = alimentos.darAlimentoEn(self.position())
-    	energia += alimento.energiaQueAporta()
-	}
-
-	method evitarObstaculoDesde(positionAnterior) {
-		if (obstaculos.hayObstaculoEn(position)) {
-			self.position(positionAnterior)
-			self.rollBackGastoDeEnergia()
-		}
-	}
-
 	method mover(direccion) {
-		const positionAnterior = position
 		const nuevaPosition = direccion.siguiente(position) //valida el tablero antes de gastar energia
 		self.volar(10)
-		position = nuevaPosition
-		self.evitarObstaculoDesde(positionAnterior)
+		self.position(nuevaPosition)
 	}
 
 	method volar(distancia) {
@@ -93,15 +63,11 @@ object pepita {
 
 	method perderGravedad() {
 		if (not self.estaPepitaEnElSuelo()) {
-        	position = game.at(
-				self.position().x(), 
+        	self.position(game.at(
+				self.position().x(),
 				self.position().y() - 1
-			) 
+			))
 		}
-	}
-
-	method rollBackGastoDeEnergia() {
-		energia += self.energiaQueGastaAlVolar(10)
 	}
 
 	// FIN ACCIONES

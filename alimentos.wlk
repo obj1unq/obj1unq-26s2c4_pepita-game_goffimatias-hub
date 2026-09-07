@@ -1,67 +1,45 @@
-object alimentos {
-    const elementos = [manzana, alpiste]
 
-    method hayAlimentoEn(unaPosicion) {
-        return elementos.any { alimento => alimento.position() == unaPosicion }
-    }
-
-     method validarComer(unaPosicion) {
-        if (not self.hayAlimentoEn(unaPosicion)) {
-            self.error("No hay alimento en la posicion")
-        }
-    }
-
-    method darAlimentoEn(unaPosicion) {
-        self.validarComer(unaPosicion)
-        const alimento = elementos.find { a => a.position() == unaPosicion }
-        elementos.remove(alimento)
-        game.removeVisual(alimento)
-        return alimento
-    }    
-}
 
 object manzana {
 
     var property energia = 60
-    var position = game.at(3, 3)
-    const imagen = "manzana.png"
-
-    method image() {
-        return imagen
-    }
-
-    method position() {
-        return position
-    }
-
-    method position(_position) {
-        position = _position 
-    }
+    var property position = game.at(3, 3)
+    const property image = "manzana.png"
 
     method energiaQueAporta() {
         return energia
     }
+
+    method esComidoPor(ave) {
+        ave.energia(ave.energia() + self.energiaQueAporta())
+        game.removeVisual(self)
+    }
+
+    method atravesable() {
+        return true
+    }
+
+    method chocar(ave) { }
 }
 
 object alpiste {
 
-    var property energia = 40
-    var position = game.at(2, 2)
-    const imagen = "alpiste.png"
-
-    method image() {
-        return imagen
-    }
-
-    method position() {
-        return position
-    }
-
-    method position(_position) {
-        position = _position 
-    }
+    var property energia = 50
+    var property position = game.at(2, 2)
+    const property image = "alpiste.png"
 
     method energiaQueAporta() {
         return energia
+    }
+
+    method esComidoPor(ave) {
+        ave.energia(ave.energia() + self.energiaQueAporta())
+        game.removeVisual(self)
+    }
+
+    method chocar(ave) { }
+
+    method atravesable() {
+        return true
     }
 }
