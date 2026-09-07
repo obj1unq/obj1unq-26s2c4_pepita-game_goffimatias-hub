@@ -1,5 +1,7 @@
-import pepita.*
+import alimentos.*
 import direcciones.*
+import obstaculos.*
+import pepita.*
 import wollok.game.*
 
 program PepitaGame {
@@ -8,12 +10,26 @@ program PepitaGame {
 	game.width(10)
 	game.boardGround("fondo2.jpg")
 
+	// VISUALS
+    game.addVisual(manzana)
+    game.addVisual(alpiste)
+    game.addVisual(muro)
 	game.addVisual(pepita)
-
+	
+	// CONFIGURACION DE TECLAS
 	keyboard.left().onPressDo({ pepita.mover(izquierda)})
 	keyboard.right().onPressDo({ pepita.mover(derecha)})
 	keyboard.up().onPressDo({ pepita.mover(arriba)})
 	keyboard.down().onPressDo({ pepita.mover(abajo)})
+	keyboard.c().onPressDo({ game.uniqueCollider(pepita).esComidoPor(pepita) })
+	
+	// ON COLLIDE
+	game.onCollideDo(pepita, {entidad => entidad.chocar(pepita)})
 
 	game.start()
+
+	// TICKS
+	const tick = game.tick(800, { pepita.perderGravedad() }, false)
+  	tick.start()
+	
 }
