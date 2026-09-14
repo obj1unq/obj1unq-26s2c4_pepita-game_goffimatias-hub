@@ -1,5 +1,6 @@
 import wollok.game.*
 import pepita.*
+import randomizer.*
 
 object fondo{
     var property image = "fondo.jpg"
@@ -75,9 +76,21 @@ class Comida {
     }
 }
 
-object muro {
-    const property image = "muro.png"
-    const property position = game.at(4, 3)
+const manzana = new Comida(
+	image =  "manzana.png",
+	position = game.at(5, 5),
+	energia = 100
+)
+
+const alpiste = new Comida(
+	image =  "alpiste.png",
+	position = game.at(8, 3),
+	energia = 50
+)
+
+class Muro {
+    const property image
+    const property position
 
     method esAtravesable(){
         return false 
@@ -87,26 +100,18 @@ object muro {
     }
 }
 
-object muro2 {
-    const property image = "muro.png"
-    const property position = game.at(6, 2)
+const muro1 = new Muro(
+    image =  "muro.png",
+	position = randomizer.position()
+)
 
-    method esAtravesable(){
-        return false 
-    }
+const muro2 = new Muro(
+    image =  "muro.png",
+	position = randomizer.position()
+)
 
-    method chocar(ave){ 
-    }
-}
+const muro3 = new Muro(
+    image =  "muro.png",
+	position = randomizer.position()
+)
 
-object muro3 {
-    const property image = "muro.png"
-    const property position = game.at(5, 4)
-
-    method esAtravesable(){
-        return false 
-    }
-
-    method chocar(ave){ 
-    }
-}
