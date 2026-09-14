@@ -61,7 +61,7 @@ object pepita {
     	energia -= self.energiaQueGastaAlVolar(distancia)
   	}
 
-	method perderGravedad() {
+	method caer() {
 		if (not self.estaPepitaEnElSuelo()) {
         	self.position(game.at(
 				self.position().x(),

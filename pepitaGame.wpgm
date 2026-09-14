@@ -1,35 +1,63 @@
-import alimentos.*
-import direcciones.*
-import obstaculos.*
 import pepita.*
+import direcciones.*
 import wollok.game.*
+import extras.*
 
 program PepitaGame {
+	//Estas configuraciones no se pueden cambiar una vez que inició el juego
 	game.title("Pepita")
 	game.height(10)
 	game.width(10)
+	game.cellSize(50)
 	game.boardGround("fondo2.jpg")
 
-	// VISUALS
-    game.addVisual(manzana)
-    game.addVisual(alpiste)
-    game.addVisual(muro)
+	game.addVisual(fondo)
+
+	//Los addVisuals se superponen en el orden que se agregaron.
+	game.addVisual(nido)	
+	game.addVisual(silvestre)
+
+	const manzana = new Comida(
+		image =  "manzana.png",
+		position = game.at(5, 5),
+		energia = 100
+	)
+
+	const alpiste = new Comida(
+		image =  "alpiste.png",
+		position = game.at(8, 3),
+		energia = 50
+	)
+
+	game.addVisual(manzana)
+	game.addVisual(alpiste)
+	game.addVisual(muro)
+	game.addVisual(muro2)
+	game.addVisual(muro3)
 	game.addVisual(pepita)
 	
-	// CONFIGURACION DE TECLAS
+	
+	//Este mensaje limpia todos los objetos del tablero, on collides, asignacion de tecla, etc.
+	//game.clear()
+
 	keyboard.left().onPressDo({ pepita.mover(izquierda)})
 	keyboard.right().onPressDo({ pepita.mover(derecha)})
 	keyboard.up().onPressDo({ pepita.mover(arriba)})
 	keyboard.down().onPressDo({ pepita.mover(abajo)})
+	
+	keyboard.b().onPressDo({ fondo.cambiar()})	
 	keyboard.c().onPressDo({ game.uniqueCollider(pepita).esComidoPor(pepita) })
 	
-	// ON COLLIDE
-	game.onCollideDo(pepita, {entidad => entidad.chocar(pepita)})
+	// game.whenCollideDo(pepita,{ entidad => game.say(pepita, "gane")})
+	
+	//game.onCollideDo(pepita,{ entidad => entidad})
+	//game.onCollideDo(pepita,{ entidad => pepita.colisionar(entidad) })
+	game.onCollideDo(pepita,{ entidad => entidad.chocar(pepita) })
+	
+	// TICKS
+	game.onTick(1000, "gravedad pepita", {pepita.caer()})
+	//const tick = game.tick(800, { pepita.caer() })
+  	//tick.start()
 
 	game.start()
-
-	// TICKS
-	const tick = game.tick(800, { pepita.perderGravedad() }, false)
-  	tick.start()
-	
 }
